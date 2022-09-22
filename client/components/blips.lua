@@ -1,0 +1,15 @@
+function _BrinksActivity:mainBlip()
+	local blip = AddBlipForCoord(Config.Interaction.StartActivity.Ped.position.coords)
+	SetBlipScale(blip, Config.Interaction.StartActivity.Blips.scale)
+	SetBlipSprite(blip, Config.Interaction.StartActivity.Blips.id)
+	SetBlipColour(blip, Config.Interaction.StartActivity.Blips.color)
+	SetBlipAlpha(blip, 255)
+	AddTextEntry("BLIPS_BRINKS", Config.Interaction.StartActivity.Blips.name)
+	BeginTextCommandSetBlipName("BLIPS_BRINKS")
+	SetBlipCategory(blip, 2)
+	EndTextCommandSetBlipName(blip)
+end
+
+Citizen.CreateThread(function()
+	_BrinksActivity:mainBlip()
+end)
