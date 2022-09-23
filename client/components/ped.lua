@@ -22,4 +22,5 @@ Citizen.CreateThread(function()
 	end
 	local ped = _BrinksActivity:createPed(Config.Interaction.StartActivity.Ped.model, Config.Interaction.StartActivity.Ped.position)
 	local robbery = _BrinksActivity:createPed(Config.Robbery.Ped.model, Config.Robbery.Ped.position)
+	TriggerServerEvent("brinks:player:getPoints")
 end)

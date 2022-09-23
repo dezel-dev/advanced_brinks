@@ -11,7 +11,7 @@ Citizen.CreateThread(function()
 				if (GetEntityModel(v) == GetHashKey("stockade")) and (not _BrinksActivity.IsInActivity) then
 					interval = 0
 					local aiming, targetVeh = GetEntityPlayerIsFreeAimingAt(PlayerId())
-					if (aiming) then
+					if (aiming) and (Config.Robbery.Weapon[tostring(GetSelectedPedWeapon(PlayerPedId()))]) then
 						if (_BrinksActivity.Robbery.Cooldown) then
 							ESX.ShowNotification("~r~Vous avez déjà braqué un Brinks! Veuillez patienter...")
 						else
@@ -52,7 +52,6 @@ Citizen.CreateThread(function()
 			end
 			if (_BrinksActivity.Robbery.Timer ~= 0) then
 				_BrinksActivity.Robbery.Timer = _BrinksActivity.Robbery.Timer - 1
-				print(_BrinksActivity.Robbery.Timer)
 			end
 		end
 

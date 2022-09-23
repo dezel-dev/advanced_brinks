@@ -1,6 +1,5 @@
 RegisterNetEvent("brinks:getPoints", function(points)
 	_BrinksActivity.Points = points
-	print(json.encode(_BrinksActivity.Points))
 end)
 
 local points = {
@@ -13,6 +12,7 @@ local open_menu = function()
 	local main = RageUI.CreateMenu("Brinks", "Brinks | Points");
 	local add = RageUI.CreateSubMenu(main, "Brinks", "Brinks | Points");
 	local remove = RageUI.CreateSubMenu(main, "Brinks", "Brinks | Points");
+	local points_details = RageUI.CreateSubMenu(main, "Brinks", "Brinks | Points");
 	RageUI.Visible(main, not RageUI.Visible(main))
 
 	while main do
@@ -45,10 +45,39 @@ local open_menu = function()
 			})
 		end)
 
-		if not RageUI.Visible(main) and not RageUI.Visible(add) and not RageUI.Visible(remove) then
+		RageUI.IsVisible(remove, function()
+			for k,v in pairs(_BrinksActivity.Points) do
+				RageUI.Button("Point #"..k, nil, {}, true, {
+					onSelected = function()
+						actualPoint = {
+							position = k,
+							Blips = v.Blips,
+							Bag = v.Bag
+						}
+					end
+				}, points_details)
+			end
+		end)
+
+		RageUI.IsVisible(points_details, function()
+			RageUI.Button("Aller au point", nil, {}, true, {
+				onSelected = function()
+					SetEntityCoords(PlayerPedId(), actualPoint.Bag)
+				end
+			})
+			RageUI.Button("Supprimer le point", "Cette action est irréversible!", {}, true, {
+				onSelected = function()
+					_BrinksActivity.Points[actualPoint.position] = nil
+					TriggerServerEvent("brinks:points:delete", actualPoint.Blips, _BrinksActivity.Points)
+				end
+			})
+		end)
+
+		if not RageUI.Visible(main) and not RageUI.Visible(add) and not RageUI.Visible(remove) and not RageUI.Visible(points_details) then
 			main = RMenu:DeleteType('main', true)
 			add = RMenu:DeleteType('main', true)
 			remove = RMenu:DeleteType('main', true)
+			points_details = RMenu:DeleteType('main', true)
 		end
 	end
 end
@@ -62,5 +91,4 @@ RegisterNetEvent("brinks:refresh_points", function(metadata)
 		Blips = metadata.blipsPos,
 		Bag = metadata.bagPos
 	})
-	print(json.encode(_BrinksActivity.Points))
 end)

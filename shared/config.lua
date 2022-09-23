@@ -41,6 +41,7 @@ Config = {
 		Position = vector3(253.89, 228.92, 101.68),
 		Money = 50
 	},
+	MaxBag = 10,
 	PermConfig = {
 		user = false,
 		admin = true,
@@ -58,6 +59,9 @@ Config = {
 			model = "a_m_m_soucent_01",
 			position = { coords = vector3(1013.65, -1838.27, 30.78), heading = 180.0 },
 			scenario = "WORLD_HUMAN_GUARD_PATROL"
+		},
+		Weapon = {
+			["453432689"] = true
 		}
 	}
 }

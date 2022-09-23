@@ -18,6 +18,9 @@ RegisterNetEvent("brinks:money_bag", function()
 	local coordsBrinks = GetEntityCoords(closestBrinks)
 	local dst = #(GetEntityCoords(PlayerPedId() - coordsBrinks))
 	if (dst <= 5.0) then
+		if (_BrinksActivity.Mission.BagInBrinks == Config.MaxBag) then
+			return ESX.ShowNotification("~r~Vous avez atteint le maximum de sac dans le brinks!")
+		end
 		_BrinksActivity.Mission.BagInBrinks = _BrinksActivity.Mission.BagInBrinks + 1
 		TriggerServerEvent("brinks_activity:remove_bag")
 	end
@@ -32,6 +35,7 @@ function _BrinksActivity.Mission:loadMission()
 	coords.blip = _BrinksActivity.Points[random].Blips
 	_BrinksActivity.Mission.Blip = AddBlipForCoord(coords.blip)
 	SetBlipRoute(_BrinksActivity.Mission.Blip, 2)
+	ESX.ShowNotification("~g~Une nouvelle mission vous a été attribué!")
 	ESX.Game.SpawnLocalObject("prop_big_bag_01", coords.bag, function(obj)
 		_BrinksActivity.Mission.Object = obj
 		PlaceObjectOnGroundProperly(obj)
